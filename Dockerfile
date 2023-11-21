@@ -21,7 +21,10 @@ RUN python -m pip install --upgrade pip
 RUN pip install gdal
 RUN pip install rasterio
 RUN pip install scikit-learn
-
+RUN pip install netCDF4
+RUN pip install swifter
+RUN pip install seaborn
+RUN pip install statsmodels
 ENV PYTHONPATH "${PYTHONPATH}:/ccvi_stefano"
 
 

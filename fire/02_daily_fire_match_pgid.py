@@ -160,7 +160,7 @@ def aggregate(fromdate,todate,priogrid, popualtion,preprocessed,rootdirsearch):
 
 if __name__ == '__main__':
 
-
+    print("in main")
     preprocessed="D:/DATA/FIRMS/pgid_preprocessed"
     rootdirsearch = "D:/DATA/FIRMS/MODIS/modis/"
 
@@ -191,6 +191,10 @@ if __name__ == '__main__':
 else:
     import sys
 
+    print("define the args:")
+    print("from quarter eg 2022Q1")
+    print("from to quarter eg 2023Q4")
+    print("outfilename eg CLI_risk_fires_7y.parquet")
 
     from_q = sys.argv[1]
     to_q = sys.argv[2]
