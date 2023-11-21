@@ -160,34 +160,35 @@ def aggregate(fromdate,todate,priogrid, popualtion,preprocessed,rootdirsearch):
 
 if __name__ == '__main__':
 
-    print("in main")
-    preprocessed="D:/DATA/FIRMS/pgid_preprocessed"
-    rootdirsearch = "D:/DATA/FIRMS/MODIS/modis/"
+    import os
 
-    priogrid = pd.read_parquet(
-        "C:/Users/email/Documents/conflictproxyindicators/reference_datasets/base-grid/base_grid_prio.parquet").reset_index()
+    if os.name == 'nt':
+        preprocessed="D:/DATA/FIRMS/pgid_preprocessed"
+        rootdirsearch = "D:/DATA/FIRMS/MODIS/modis/"
 
-    popualtion = pd.read_parquet(
-        "../../../reference_datasets/population/population_worldpop.parquet").reset_index()
+        priogrid = pd.read_parquet(
+            "C:/Users/email/Documents/conflictproxyindicators/reference_datasets/base-grid/base_grid_prio.parquet").reset_index()
 
-    popualtion = popualtion.loc[((popualtion.year == 2023) & (popualtion.quarter == 4))]
+        popualtion = pd.read_parquet(
+            "../../../reference_datasets/population/population_worldpop.parquet").reset_index()
 
-    df = aggregate("2022Q3", "2023Q3", priogrid, popualtion,preprocessed,rootdirsearch)
+        popualtion = popualtion.loc[((popualtion.year == 2023) & (popualtion.quarter == 4))]
 
-    df = df[["pgid","boxcoxb_log_minmax"]]
-    df.columns = ["pgid","CLI_risk_fires_12m"]
-    df["year"] = 2023
-    df["quarter"] = 3
-    df.to_parquet("CLI_risk_fires_12m.parquet")
+        df = aggregate("2022Q3", "2023Q3", priogrid, popualtion,preprocessed,rootdirsearch)
 
-    df = aggregate("2017Q3", "2023Q3", priogrid, popualtion,preprocessed,rootdirsearch)
+        df = df[["pgid","boxcoxb_log_minmax"]]
+        df.columns = ["pgid","CLI_risk_fires_12m"]
+        df["year"] = 2023
+        df["quarter"] = 3
+        df.to_parquet("CLI_risk_fires_12m.parquet")
 
-    df = df[["pgid","boxcoxb_log_minmax"]]
-    df.columns = ["pgid","CLI_risk_fires_7y"]
-    df["year"] = 2023
-    df["quarter"] = 3
-    df.to_parquet("CLI_risk_fires_7y.parquet")
+        df = aggregate("2017Q3", "2023Q3", priogrid, popualtion,preprocessed,rootdirsearch)
 
+        df = df[["pgid","boxcoxb_log_minmax"]]
+        df.columns = ["pgid","CLI_risk_fires_7y"]
+        df["year"] = 2023
+        df["quarter"] = 3
+        df.to_parquet("CLI_risk_fires_7y.parquet")
 else:
     import sys
 
