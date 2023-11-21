@@ -16,7 +16,7 @@ services:
     command:
       - sh
       - -c
-      - /bin/sh -c "jupyter notebook  --allow-root --ip 0.0.0.0 --port 8888 --NotebookApp.token='demo' --NotebookApp.password='demo1234567890'"
+      - /bin/sh -c "jupyter notebook  --allow-root --ip 0.0.0.0 --port 8888 --NotebookApp.token='demo1234567890' --NotebookApp.password='demo1234567890' --NotebookApp.notebook_dir='/ccvi_stefano'"
 #Docker Networks
 networks:
   app-network:
