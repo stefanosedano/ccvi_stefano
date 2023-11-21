@@ -22,8 +22,6 @@ RUN pip install gdal
 RUN pip install rasterio
 RUN pip install scikit-learn
 
-COPY ./run_jupiter.sh /etc/run_jupiter.sh
-
 ENV PYTHONPATH "${PYTHONPATH}:/ccvi_stefano"
 
 

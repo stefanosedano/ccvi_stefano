@@ -211,7 +211,7 @@ else:
     df = aggregate("from_q", "to_q", priogrid, popualtion,preprocessed,rootdirsearch)
 
     df = df[["pgid","boxcoxb_log_minmax"]]
-    df.columns = ["pgid","CLI_risk_fires_12m"]
+    df.columns = ["pgid",out_filename.replace("parquet","")]
     df["year"] = 2023
     df["quarter"] = 3
     df.to_parquet(out_filename)
