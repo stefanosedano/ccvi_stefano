@@ -189,37 +189,37 @@ if __name__ == '__main__':
         df["year"] = 2023
         df["quarter"] = 3
         df.to_parquet("CLI_risk_fires_7y.parquet")
-else:
-    import sys
+    else:
+        import sys
 
-    print("define the args:")
-    print("from quarter eg 2022Q1")
-    print("from to quarter eg 2023Q4")
-    print("outfilename eg CLI_risk_fires_7y.parquet")
+        print("define the args:")
+        print("from quarter eg 2022Q1")
+        print("from to quarter eg 2023Q4")
+        print("outfilename eg CLI_risk_fires_7y.parquet")
 
-    from_q = sys.argv[1]
-    to_q = sys.argv[2]
-    out_filename=sys.argv[3]
+        from_q = sys.argv[1]
+        to_q = sys.argv[2]
+        out_filename=sys.argv[3]
 
 
-    preprocessed="/DATA/REFERENCE_DATASETS/FIRMS/pgid_preprocessed"
-    rootdirsearch = "/DATA/REFERENCE_DATASETS/FIRMS/MODIS/modis/"
+        preprocessed="/DATA/REFERENCE_DATASETS/FIRMS/pgid_preprocessed"
+        rootdirsearch = "/DATA/REFERENCE_DATASETS/FIRMS/MODIS/modis/"
 
-    priogrid = pd.read_parquet(
-        "/DATA/REFERENCE_DATASETS/BASEGRID/base_grid_prio.parquet").reset_index()
+        priogrid = pd.read_parquet(
+            "/DATA/REFERENCE_DATASETS/BASEGRID/base_grid_prio.parquet").reset_index()
 
-    popualtion = pd.read_parquet(
-        "/DATA/REFERENCE_DATASETS/POPULATION/population_worldpop.parquet").reset_index()
+        popualtion = pd.read_parquet(
+            "/DATA/REFERENCE_DATASETS/POPULATION/population_worldpop.parquet").reset_index()
 
-    popualtion = popualtion.loc[((popualtion.year == 2023) & (popualtion.quarter == 4))]
+        popualtion = popualtion.loc[((popualtion.year == 2023) & (popualtion.quarter == 4))]
 
-    df = aggregate("from_q", "to_q", priogrid, popualtion,preprocessed,rootdirsearch)
+        df = aggregate("from_q", "to_q", priogrid, popualtion,preprocessed,rootdirsearch)
 
-    df = df[["pgid","boxcoxb_log_minmax"]]
-    df.columns = ["pgid",out_filename.replace("parquet","")]
-    df["year"] = 2023
-    df["quarter"] = 3
-    df.to_parquet(out_filename)
+        df = df[["pgid","boxcoxb_log_minmax"]]
+        df.columns = ["pgid",out_filename.replace("parquet","")]
+        df["year"] = 2023
+        df["quarter"] = 3
+        df.to_parquet(out_filename)
 
 
 
