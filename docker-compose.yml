@@ -9,14 +9,13 @@ services:
     ports:
       - "8889:8889"
     volumes:
-      - .:/myjupiter
       - /etc/CCVI/DATA:/ccvi_stefano/DATA
     networks:
       - app-network
-    command:
-      - sh
-      - -c
-      - /bin/sh -c "/myjupiter/run_jupiter.sh"
+    #command:
+    #  - sh
+    #  - -c
+    #  - /bin/sh -c "/myjupiter/run_jupiter.sh"
 
 #Docker Networks
 networks:
