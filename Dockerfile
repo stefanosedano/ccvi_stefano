@@ -24,9 +24,6 @@ RUN pip install scikit-learn
 
 WORKDIR "/ccvi_stefano"
 
-COPY . /ccvi_stefano/
-#RUN git clone https://github.com/stefanosedano/ccvi_stefano.git
-
 ENV PYTHONPATH "${PYTHONPATH}:/ccvi_stefano"
 
 
