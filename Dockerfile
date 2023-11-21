@@ -22,8 +22,6 @@ RUN pip install gdal
 RUN pip install rasterio
 RUN pip install scikit-learn
 
-WORKDIR "/ccvi_stefano"
-
 ENV PYTHONPATH "${PYTHONPATH}:/ccvi_stefano"
 
 
