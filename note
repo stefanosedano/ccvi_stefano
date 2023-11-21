@@ -1,0 +1,2 @@
+#to run from the docker server:
+docker exec ccvi_scripts_from_stefano python /ccvi_stefano/fire/02_daily_fire_match_pgid.py 2000Q1 2023Q2 test.parquet
