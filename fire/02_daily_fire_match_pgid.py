@@ -213,7 +213,7 @@ if __name__ == '__main__':
 
         popualtion = popualtion.loc[((popualtion.year == 2023) & (popualtion.quarter == 4))]
 
-        df = aggregate("from_q", "to_q", priogrid, popualtion,preprocessed,rootdirsearch)
+        df = aggregate(from_q, to_q, priogrid, popualtion,preprocessed,rootdirsearch)
 
         df = df[["pgid","boxcoxb_log_minmax"]]
         df.columns = ["pgid",out_filename.replace("parquet","")]
