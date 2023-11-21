@@ -16,7 +16,7 @@ services:
     command:
       - sh
       - -c
-      - /bin/sh -c "/ccvi_stefano/run_jupiter.sh"
+      - /bin/sh -c "/etc/run_jupiter.sh"
 #Docker Networks
 networks:
   app-network:
