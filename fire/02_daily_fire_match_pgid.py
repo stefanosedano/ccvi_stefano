@@ -54,7 +54,7 @@ def get_LC_class_4_apply(row):
 def get_LC_class(target_lat,target_lon):
 
     # Open the NetCDF file
-    nc = Dataset('C3S-LC-L4-LCCS-Map-300m-P1Y-2020-v2.1.1.nc', 'r')
+    nc = Dataset('/ccvi_stefano/DATA/REFERENCE_DATASETS/LANDCOVER/C3S-LC-L4-LCCS-Map-300m-P1Y-2020-v2.1.1.nc', 'r')
 
     # Specify the target latitude and longitude
     #target_lat = row["latitude"]
@@ -187,5 +187,34 @@ if __name__ == '__main__':
     df["year"] = 2023
     df["quarter"] = 3
     df.to_parquet("CLI_risk_fires_7y.parquet")
+
+else:
+    import sys
+
+
+    from_q = sys.argv[1]
+    to_q = sys.argv[2]
+    out_filename=sys.argv[3]
+
+
+    preprocessed="/ccvi_stefano/DATA/REFERENCE_DATASETS/FIRMS/pgid_preprocessed"
+    rootdirsearch = "/ccvi_stefano/DATA/REFERENCE_DATASETS/FIRMS/MODIS/modis/"
+
+    priogrid = pd.read_parquet(
+        "/ccvi_stefano/DATA/REFERENCE_DATASETS/BASEGRID/base_grid_prio.parquet").reset_index()
+
+    popualtion = pd.read_parquet(
+        "/ccvi_stefano/DATA/REFERENCE_DATASETS/POPULATION/population_worldpop.parquet").reset_index()
+
+    popualtion = popualtion.loc[((popualtion.year == 2023) & (popualtion.quarter == 4))]
+
+    df = aggregate("from_q", "to_q", priogrid, popualtion,preprocessed,rootdirsearch)
+
+    df = df[["pgid","boxcoxb_log_minmax"]]
+    df.columns = ["pgid","CLI_risk_fires_12m"]
+    df["year"] = 2023
+    df["quarter"] = 3
+    df.to_parquet(out_filename)
+
 
 

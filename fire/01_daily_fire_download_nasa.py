@@ -96,6 +96,12 @@ if __name__ == '__main__':
     download_archive(2000, 2023)
     download_latest(2023)
 
+else:
+    import sys
+    from_date = sys.argv[1]
+    last_date = sys.argv[1]
+    download_archive(from_date, last_date)
+    download_latest(last_date)
 
 
 
