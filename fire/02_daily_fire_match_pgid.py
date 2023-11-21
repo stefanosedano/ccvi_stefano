@@ -32,7 +32,7 @@ from general_functions_ccvi.log_with_pop_and_fit_normal_distribution import cust
 def get_LC_class_4_apply(row):
 
     # Open the NetCDF file
-    nc = Dataset('C3S-LC-L4-LCCS-Map-300m-P1Y-2020-v2.1.1.nc', 'r')
+    nc = Dataset('/DATA/REFERENCE_DATASETS/LANDCOVER/C3S-LC-L4-LCCS-Map-300m-P1Y-2020-v2.1.1.nc', 'r')
 
     # Specify the target latitude and longitude
     target_lat = row["latitude"]
@@ -54,7 +54,7 @@ def get_LC_class_4_apply(row):
 def get_LC_class(target_lat,target_lon):
 
     # Open the NetCDF file
-    nc = Dataset('/ccvi_stefano/DATA/REFERENCE_DATASETS/LANDCOVER/C3S-LC-L4-LCCS-Map-300m-P1Y-2020-v2.1.1.nc', 'r')
+    nc = Dataset('/DATA/REFERENCE_DATASETS/LANDCOVER/C3S-LC-L4-LCCS-Map-300m-P1Y-2020-v2.1.1.nc', 'r')
 
     # Specify the target latitude and longitude
     #target_lat = row["latitude"]
@@ -197,14 +197,14 @@ else:
     out_filename=sys.argv[3]
 
 
-    preprocessed="/ccvi_stefano/DATA/REFERENCE_DATASETS/FIRMS/pgid_preprocessed"
-    rootdirsearch = "/ccvi_stefano/DATA/REFERENCE_DATASETS/FIRMS/MODIS/modis/"
+    preprocessed="/DATA/REFERENCE_DATASETS/FIRMS/pgid_preprocessed"
+    rootdirsearch = "/DATA/REFERENCE_DATASETS/FIRMS/MODIS/modis/"
 
     priogrid = pd.read_parquet(
-        "/ccvi_stefano/DATA/REFERENCE_DATASETS/BASEGRID/base_grid_prio.parquet").reset_index()
+        "/DATA/REFERENCE_DATASETS/BASEGRID/base_grid_prio.parquet").reset_index()
 
     popualtion = pd.read_parquet(
-        "/ccvi_stefano/DATA/REFERENCE_DATASETS/POPULATION/population_worldpop.parquet").reset_index()
+        "/DATA/REFERENCE_DATASETS/POPULATION/population_worldpop.parquet").reset_index()
 
     popualtion = popualtion.loc[((popualtion.year == 2023) & (popualtion.quarter == 4))]
 

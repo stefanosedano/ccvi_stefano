@@ -9,7 +9,8 @@ services:
     ports:
       - "8889:8889"
     volumes:
-      - /etc/CCVI/DATA:/ccvi_stefano/DATA
+      - ./:/ccvi_stefano/
+      - /etc/CCVI/DATA:/DATA
     networks:
       - app-network
     #command:
