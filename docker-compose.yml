@@ -1,0 +1,26 @@
+version: '3.7'
+services:
+  ccvi_scripts_from_stefano:
+    build:
+      context: .
+    container_name: ccvi_scripts_from_stefano
+    #restart: unless-stopped
+    tty: true
+    ports:
+      - "8889:8889"
+    volumes:
+      - .:/myjupiter
+      - /etc/CCVI/DATA:/ccvi_stefano/DATA
+    networks:
+      - app-network
+    command:
+      - sh
+      - -c
+      - /bin/sh -c "/myjupiter/run_jupiter.sh"
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+
+
