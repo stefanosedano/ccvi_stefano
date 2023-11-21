@@ -7,7 +7,7 @@ services:
     #restart: unless-stopped
     tty: true
     ports:
-      - "8889:8889"
+      - "8888:8888"
     volumes:
       - ./:/ccvi_stefano/
       - /etc/CCVI/DATA:/DATA
