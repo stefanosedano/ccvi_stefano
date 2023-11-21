@@ -13,10 +13,6 @@ services:
       - /etc/CCVI/DATA:/DATA
     networks:
       - app-network
-    #command:
-    #  - sh
-    #  - -c
-    #  - /bin/sh -c "/myjupiter/run_jupiter.sh"
 
 #Docker Networks
 networks:
