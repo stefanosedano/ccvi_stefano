@@ -4,7 +4,6 @@ import numpy as np
 import pandas as pd
 from scipy.stats import norm
 from scipy.optimize import minimize
-
 import numpy as np
 import pandas as pd
 from scipy.stats import norm
@@ -23,6 +22,8 @@ sns.set_palette(palette = "rainbow")
 from sklearn.preprocessing import FunctionTransformer
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import PowerTransformer
+import warnings
+warnings.filterwarnings('ignore')
 
 sys.path.append('..')
 from general_functions_ccvi.normality_test import normality_test
