@@ -22,13 +22,14 @@ RUN pip install gdal
 RUN pip install rasterio
 RUN pip install scikit-learn
 
-WORKDIR "/"
+WORKDIR "/ccvi_stefano"
 
-RUN git clone https://github.com/stefanosedano/ccvi_stefano.git
+COPY . /ccvi_stefano/
+#RUN git clone https://github.com/stefanosedano/ccvi_stefano.git
 
 ENV PYTHONPATH "${PYTHONPATH}:/ccvi_stefano"
 
-WORKDIR "/ccvi_stefano"
+
 
 
 
