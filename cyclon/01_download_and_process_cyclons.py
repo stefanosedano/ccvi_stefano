@@ -35,7 +35,7 @@ def cyclons_to_grid(binsize=0.5,datefrom=None,dateto=None,ibtrak_url=""):
     return points
 
 
-def aggregate(fromdate,todate,priogrid,popualtion,ibtrak_url):
+def aggregate(fromdate,todate,priogrid,popualtion,ibtrak_url,indicator_name):
 
 
 
@@ -67,6 +67,8 @@ def aggregate(fromdate,todate,priogrid,popualtion,ibtrak_url):
 
     df.to_csv(filename_full, index=False)
 
+    df.to_parquet(f"raw_{indicator_name}.parquet")
+
     out=pd.merge(popualtion,df, on=["latbin","lonbin"], how="left")
     out=out.loc[~(out["count_cyclones"].isna())]
 
@@ -85,24 +87,24 @@ if __name__ == '__main__':
         "C:/Users/email/Documents/conflictproxyindicators/reference_datasets/base-grid/base_grid_prio.parquet").reset_index()
 
     popualtion = pd.read_parquet(
-        "../../../reference_datasets/population/population_worldpop.parquet").reset_index()
+        "d:/DATA/population/population_worldpop.parquet").reset_index()
 
     popualtion = popualtion.loc[((popualtion.year == 2023) & (popualtion.quarter == 4))]
 
-    df = aggregate("2022Q3", "2023Q3",priogrid,popualtion,ibtrak_url)
+    indicator_name = "CLI_current_cyclones"
+    df = aggregate("2022Q3", "2023Q3",priogrid,popualtion,ibtrak_url,indicator_name)
     df = df[["pgid","boxcoxb_log_minmax"]]
-    df.columns = ["pgid","CLI_risk_cyclones_12m"]
+    df.columns = ["pgid",indicator_name]
     df["year"] = 2023
     df["quarter"] = 3
-    df.to_parquet("CLI_risk_cyclones_12m.parquet")
+    df.to_parquet(f"{indicator_name}.parquet")
 
-
-
-    df = aggregate("2017Q3", "2023Q3",priogrid,popualtion,ibtrak_url)
+    indicator_name = "CLI_accumualted_cyclones"
+    df = aggregate("2017Q3", "2023Q3",priogrid,popualtion,ibtrak_url,indicator_name)
     df = df[["pgid","boxcoxb_log_minmax"]]
-    df.columns = ["pgid","CLI_risk_cyclones_7y"]
+    df.columns = ["pgid",indicator_name]
     df["year"] = 2023
     df["quarter"] = 3
-    df.to_parquet("CLI_risk_cyclones_7y.parquet")
+    df.to_parquet(f"{indicator_name}.parquet")
 
 

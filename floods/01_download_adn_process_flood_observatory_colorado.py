@@ -9,7 +9,7 @@ from general_functions_ccvi.normality_test import normality_test
 from general_functions_ccvi.log_with_pop_and_fit_normal_distribution import custom_norm
 
 
-def aggregate(fromdate,todate, priogrid, popualtion):
+def aggregate(fromdate,todate, priogrid, popualtion,indicator_name):
 
     archive = "https://floodobservatory.colorado.edu/temp/FloodArchive.xlsx"
     recent_events="https://floodobservatory.colorado.edu/Version3/MasterListrev.htm"
@@ -49,6 +49,9 @@ def aggregate(fromdate,todate, priogrid, popualtion):
     grouped_df = df.loc[((df["quarter"] >= fromdate) & (df["quarter"] <= todate))].groupby(["latbin", "lonbin"]).sum().reset_index()
     grouped_df.to_csv(f"flood_{fromdate}-{todate}_full.csv")
 
+    grouped_df.to_parquet(f"raw_{indicator_name}.parquet")
+
+
     popualtion["latbin"] = popualtion.lat.map(to_bin)
     popualtion["lonbin"] = popualtion.lon.map(to_bin)
 
@@ -71,25 +74,29 @@ if __name__ == '__main__':
         "C:/Users/email/Documents/conflictproxyindicators/reference_datasets/base-grid/base_grid_prio.parquet").reset_index()
 
     popualtion = pd.read_parquet(
-        "../../../reference_datasets/population/population_worldpop.parquet").reset_index()
+        "../reference_datasets/population/population_worldpop.parquet").reset_index()
 
     popualtion = popualtion.loc[((popualtion.year == 2023) & (popualtion.quarter == 4))]
 
-    df = aggregate("2021Q3", "2023Q3", priogrid, popualtion)
+    indicator_name = "CLI_current_floods"
+    df = aggregate("2021Q3", "2023Q3", priogrid, popualtion, indicator_name)
+
 
     df = df[["pgid","boxcoxb_log_minmax"]]
-    df.columns = ["pgid","CLI_risk_floods_12m"]
+    df.columns = ["pgid",indicator_name]
     df["year"] = 2023
     df["quarter"] = 3
-    df.to_parquet("CLI_risk_floods_12m.parquet")
+    df.to_parquet(f"{indicator_name}.parquet")
 
-    df = aggregate("2017Q3", "2023Q3", priogrid, popualtion)
+    indicator_name = "CLI_accumualted_floods"
+    df = aggregate("2017Q3", "2023Q3", priogrid, popualtion, indicator_name)
+
 
     df = df[["pgid","boxcoxb_log_minmax"]]
-    df.columns = ["pgid","CLI_risk_floods_7y"]
+    df.columns = ["pgid",indicator_name]
     df["year"] = 2023
     df["quarter"] = 3
-    df.to_parquet("CLI_risk_floods_7y.parquet")
+    df.to_parquet(f"{indicator_name}.parquet")
 
 
 

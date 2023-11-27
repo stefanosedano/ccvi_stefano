@@ -135,7 +135,7 @@ def process_data(rootdirsearch,priogrid, popualtion):
 
     return df
 
-def aggregate(fromdate,todate,priogrid, popualtion,preprocessed,rootdirsearch):
+def aggregate(fromdate,todate,priogrid, popualtion,preprocessed,rootdirsearch,indicator_name):
 
     if not os.path.exists(f"{preprocessed}/fire_count_pgid.parquet.gzip"):
 
@@ -146,6 +146,8 @@ def aggregate(fromdate,todate,priogrid, popualtion,preprocessed,rootdirsearch):
 
     df = df.loc[((df.quarter>=fromdate) & (df.quarter<=todate))]
     df=df.groupby(["pgid", "lat", "lon"]).sum().reset_index()[["pgid", "lat", "lon","count_fire"]]
+
+    df.to_parquet(f"raw_{indicator_name}.parquet")
 
     df = df.merge(popualtion[["pgid","wp_pop_density"]],on="pgid",how="left")
 
@@ -171,25 +173,29 @@ if __name__ == '__main__':
             "C:/Users/email/Documents/conflictproxyindicators/reference_datasets/base-grid/base_grid_prio.parquet").reset_index()
 
         popualtion = pd.read_parquet(
-            "../../../reference_datasets/population/population_worldpop.parquet").reset_index()
+            "../reference_datasets/population/population_worldpop.parquet").reset_index()
 
         popualtion = popualtion.loc[((popualtion.year == 2023) & (popualtion.quarter == 4))]
 
-        df = aggregate("2022Q3", "2023Q3", priogrid, popualtion,preprocessed,rootdirsearch)
+        indicator_name = "CLI_current_wildfires"
+        df = aggregate("2022Q3", "2023Q3", priogrid, popualtion,preprocessed,rootdirsearch,indicator_name)
+
 
         df = df[["pgid","boxcoxb_log_minmax"]]
-        df.columns = ["pgid","CLI_risk_fires_12m"]
+        df.columns = ["pgid",indicator_name]
         df["year"] = 2023
         df["quarter"] = 3
-        df.to_parquet("CLI_risk_fires_12m.parquet")
+        df.to_parquet(f"{indicator_name}.parquet")
 
-        df = aggregate("2017Q3", "2023Q3", priogrid, popualtion,preprocessed,rootdirsearch)
+        indicator_name = "CLI_accumualted_wildfires"
+        df = aggregate("2017Q3", "2023Q3", priogrid, popualtion,preprocessed,rootdirsearch,indicator_name)
+
 
         df = df[["pgid","boxcoxb_log_minmax"]]
-        df.columns = ["pgid","CLI_risk_fires_7y"]
+        df.columns = ["pgid",indicator_name]
         df["year"] = 2023
         df["quarter"] = 3
-        df.to_parquet("CLI_risk_fires_7y.parquet")
+        df.to_parquet(f"{indicator_name}.parquet")
     else:
         import sys
 

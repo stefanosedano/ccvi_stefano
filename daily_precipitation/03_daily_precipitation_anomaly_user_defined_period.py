@@ -112,7 +112,7 @@ def build_anomaly(arr,renge_dates,reference_pd):
 
 
 
-def aggregate(fromdate, todate,popualtion,priogrid,path_daily_prec,path_daily_prec_reference,path_year_anomaly):
+def aggregate(fromdate, todate,popualtion,priogrid,path_daily_prec,path_daily_prec_reference,path_year_anomaly,indicator_name):
 
     import sys
     #path_daily_temp = "D:/DATA/ERA5/temp/precipitation/raw/era5_precipitation"
@@ -176,6 +176,9 @@ def aggregate(fromdate, todate,popualtion,priogrid,path_daily_prec,path_daily_pr
     print("qui")
 
     df_anomaly=df_anomaly[["pgid","count"]]
+
+    df_anomaly.to_parquet(f"raw_{indicator_name}.parquet")
+
     df_anomaly=df_anomaly.merge(popualtion, on="pgid", how="left")
 
     sys.path.append('..')
@@ -206,24 +209,25 @@ if __name__ == '__main__':
     if not os.path.exists(path_year_anomaly):
         os.makedirs(path_year_anomaly)
 
-    path_population = "../../../reference_datasets/population/population_worldpop.parquet"
-    path_priogrid = "../../../reference_datasets/base-grid/base_grid_prio.parquet"
+    path_population = "../reference_datasets/population/population_worldpop.parquet"
+    path_priogrid = "../reference_datasets/base-grid/base_grid_prio.parquet"
 
     population = pd.read_parquet(path_population).reset_index()
     population = population.loc[((population.year == 2023) & (population.quarter == 4))]
     priogrid = pd.read_parquet(path_priogrid).reset_index()
 
-    df = aggregate("2022Q3", "2023Q3",population,priogrid,path_daily_prec,path_daily_prec_reference,path_year_anomaly)
+    indicator_name = "CLI_current_heavy-precipitation"
+    df = aggregate("2022Q3", "2023Q3",population,priogrid,path_daily_prec,path_daily_prec_reference,path_year_anomaly,indicator_name)
     df = df[["pgid","boxcoxb_log_minmax"]]
-    df.columns = ["pgid","CLI_risk_heavy_precipitation_12m"]
+    df.columns = ["pgid",indicator_name]
     df["year"] = 2023
     df["quarter"] = 3
-    df.to_parquet("CLI_risk_heavy_precipitation_12m.parquet")
+    df.to_parquet(f"{indicator_name}.parquet")
 
-
-    df = aggregate("2017Q3", "2023Q3",population,priogrid,path_daily_prec,path_daily_prec_reference,path_year_anomaly)
+    indicator_name = "CLI_accumualted_heavy-precipitation"
+    df = aggregate("2017Q3", "2023Q3",population,priogrid,path_daily_prec,path_daily_prec_reference,path_year_anomaly,indicator_name)
     df = df[["pgid", "boxcoxb_log_minmax"]]
-    df.columns = ["pgid", "CLI_risk_heavy_precipitation_7y"]
+    df.columns = ["pgid",indicator_name]
     df["year"] = 2023
     df["quarter"] = 3
-    df.to_parquet("CLI_risk_heavy_precipitation_7y.parquet")
+    df.to_parquet(f"{indicator_name}.parquet")
