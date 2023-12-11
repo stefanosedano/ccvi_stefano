@@ -86,10 +86,15 @@ if __name__ == '__main__':
     import sys
     print(f"reference quarter {sys.argv[1]}")
 
-    year = sys.argv[1][:4]
-    quarter = sys.argv[1][1:]
+
+    date_from = sys.argv[1]
+    date_to = sys.argv[2]
+    year = date_to[:4]
+    quarter = date_to[1][1:]
 
     outputdir = sys.argv[2]
+
+    indicator_name = sys.argv[2].replace(".parquet","")
 
     ibtrak_url = "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/csv/ibtracs.ALL.list.v04r00.csv"
     priogrid = pd.read_parquet(
@@ -101,20 +106,9 @@ if __name__ == '__main__':
     popualtion = popualtion.loc[((popualtion.year == year) & (popualtion.quarter == quarter))]
 
 
-    indicator_name = "CLI_current_cyclones"
-    df = aggregate("2022Q3", "2023Q3",priogrid,popualtion,ibtrak_url,indicator_name)
+    df = aggregate(date_from, date_to,priogrid,popualtion,ibtrak_url,indicator_name)
     df = df[["pgid","boxcoxb_log_minmax"]]
     df.columns = ["pgid",indicator_name]
     df["year"] = year
     df["quarter"] = quarter
     df.to_parquet(f"{outputdir}/{indicator_name}.parquet")
-
-    indicator_name = "CLI_accumulated_cyclones"
-    df = aggregate("2017Q3", "2023Q3",priogrid,popualtion,ibtrak_url,indicator_name)
-    df = df[["pgid","boxcoxb_log_minmax"]]
-    df.columns = ["pgid",indicator_name]
-    df["year"] = year
-    df["quarter"] = quarter
-    df.to_parquet(f"{outputdir}/{indicator_name}.parquet")
-
-
