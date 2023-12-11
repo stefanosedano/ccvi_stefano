@@ -178,7 +178,7 @@ def aggregate(yearquarterfrom,yearquarterto,popualtion,priogrid,path_daily_temp,
 
     out = custom_norm(df_anomaly, "count")
 
-    normality_test(out[["count_multiply_pop_density_log_minmax"]])
+    normality_test(out[["boxcoxb_log_minmax"]])
 
     out.to_csv(f"temperature_anomaly_{yearquarterfrom}-{yearquarterto}.csv")
 
