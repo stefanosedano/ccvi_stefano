@@ -192,9 +192,9 @@ def aggregate(yearquarterfrom,yearquarterto,popualtion,priogrid,path_daily_temp,
 
 if __name__ == '__main__':
 
-    path_daily_temp = "D:/DATA/ERA5/tempertaure/raw/era5_temperature_max"
-    path_daily_temp_reference = "D:/DATA/ERA5/tempertaure/raw/era5_temperature_max_reference/"
-    path_year_anomaly = "D:/DATA/ERA5/tempertaure/raw/anomaly/"
+    path_daily_temp = "/DATA/REFERENCE_DATASETS/ERA5/tempertaure/raw/era5_temperature_max"
+    path_daily_temp_reference = "/DATA/REFERENCE_DATASETS/ERA5/tempertaure/raw/era5_temperature_max_reference/"
+    path_year_anomaly = "/DATA/REFERENCE_DATASETS/ERA5/tempertaure/raw/anomaly/"
 
     if not os.path.exists(path_daily_temp):
         os.makedirs(path_daily_temp)
@@ -205,29 +205,33 @@ if __name__ == '__main__':
     if not os.path.exists(path_year_anomaly):
         os.makedirs(path_year_anomaly)
 
-    path_population="../reference_datasets/population/population_worldpop.parquet"
-    path_priogrid= "../reference_datasets/base-grid/base_grid_prio.parquet"
+    path_population="/DATA/REFERENCE_DATASETS/POPULATION/population_worldpop.parquet"
+    path_priogrid= "/DATA/REFERENCE_DATASETS/BASEGRID/base_grid_prio.parquet"
 
     population = pd.read_parquet(path_population).reset_index()
     population = population.loc[((population.year == 2023) & (population.quarter == 4))]
     priogrid =  pd.read_parquet(path_priogrid).reset_index()
 
-    indicator_name = "CLI_current_heatwave"
-    df = aggregate("2022Q3", "2023Q3",population,priogrid,path_daily_temp,path_daily_temp_reference,path_year_anomaly,indicator_name)
+    import sys
+
+    print("define the args:")
+    print("from quarter eg 2022Q1")
+    print("from to quarter eg 2023Q4")
+    print("outfilename eg CLI_risk_fires_7y.parquet")
+
+    from_q = sys.argv[1]
+    to_q = sys.argv[2]
+    out_dir = sys.argv[3]
+    out_filename = sys.argv[4]
+
+    indicator_name = out_filename.replace(".parquet","")
+
+    df = aggregate(from_q, to_q,population,priogrid,path_daily_temp,path_daily_temp_reference,path_year_anomaly,indicator_name)
     df = df[["pgid","boxcoxb_log_minmax"]]
     df.columns = ["pgid",indicator_name]
-    df["year"] = 2023
-    df["quarter"] = 3
-    df.to_parquet(f"{indicator_name}.parquet")
-
-    indicator_name = "CLI_accumualted_heatwave"
-    df = aggregate("2017Q3", "2023Q3",population,priogrid,path_daily_temp,path_daily_temp_reference,path_year_anomaly,indicator_name)
-    df = df[["pgid","boxcoxb_log_minmax"]]
-    df.columns = ["pgid",indicator_name]
-    df["year"] = 2023
-    df["quarter"] = 3
-    df.to_parquet(f"{indicator_name}.parquet")
-
+    df["year"] = to_q[:4]
+    df["quarter"] = to_q[1:]
+    df.to_parquet(f"{out_dir}/{indicator_name}.parquet")
 
 
 

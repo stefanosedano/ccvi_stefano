@@ -88,7 +88,7 @@ if __name__ == '__main__':
     df["quarter"] = 3
     df.to_parquet(f"{indicator_name}.parquet")
 
-    indicator_name = "CLI_accumualted_floods"
+    indicator_name = "CLI_accumulated_floods"
     df = aggregate("2017Q3", "2023Q3", priogrid, popualtion, indicator_name)
 
 

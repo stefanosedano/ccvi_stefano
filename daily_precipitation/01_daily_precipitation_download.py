@@ -120,21 +120,29 @@ class ZsGEE:
 
 
 if __name__ == '__main__':
+
     import time
     from datetime import datetime, timedelta
+    import sys
+
+    year = sys.argv[1]
+    month = sys.argv[2]
+    day = sys.argv[3]
+
     start = time.time()
-    temp_files = "d:/DATA/ERA5/temp/precipitation/"
+    temp_files = "/DATA/REFERENCE_DATASETS/ERA5/precipitation/"
+
 
     if not os.path.exists(temp_files):
         os.makedirs(temp_files)
     from_year = 1951
-    to_year = 2024
+
     ####DOWNLOAD DATA FROM GEE
     if not os.path.exists("era5_precipitation.parquet.gzip"):
         params = []
 
         startDate = datetime(1951, 1, 1)
-        endDate = datetime(2023, 10, 24)
+        endDate = datetime(year, month, day)
 
         # Getting List of Days using pandas
         datesRange = pd.date_range(startDate, endDate - timedelta(days=1), freq='d')
@@ -148,7 +156,7 @@ if __name__ == '__main__':
             params.append(parx)
 
 
-        with Pool(5) as p:
+        with Pool(30) as p:
             p.map(f, params)
 
         done = time.time()

@@ -18,7 +18,7 @@ allJobsDone=False
 ##download archive first (2000-2022)
 def download_archive(fromyear,toyear):
     for year in range(fromyear, toyear):
-        outputfile = f"D:/DATA/FIRMS/MODIS/modis_{year}_all_countries.zip"
+        outputfile = f"/DATA/REFERENCE_DATASET/FIRMS/MODIS/modis_{year}_all_countries.zip"
         if not os.path.exists(outputfile):
             url = f"https://firms.modaps.eosdis.nasa.gov/data/country/zips/modis_{year}_all_countries.zip"
             response = requests.get(url)
@@ -68,13 +68,13 @@ def download_latest(year):
                 else:
                     model = "MODIS_SP"
                 date_to_download = datei.strftime("%Y-%m-%d"),
-                outputfile = f"D:/DATA/FIRMS/MODIS/modis/{year}/{date_to_download[0]}.csv"
+                outputfile = f"/DATA/REFERENCE_DATASET/FIRMS/MODIS/modis/{year}/{date_to_download[0]}.csv"
                 if not os.path.exists(outputfile):
                     urlquery = f"https://firms.modaps.eosdis.nasa.gov/api/area/csv/61d3c440fba85794109ad61bbe0cc221/{model}/-180,-90,180,90/1/{date_to_download[0]}"
                     response = requests.get(urlquery)
                     if "Exceeding allowed transaction limit" in str(response.content):
                         break
-                    outputfile = f"D:/DATA/FIRMS/MODIS/modis/{year}/{date_to_download[0]}.csv"
+                    outputfile = f"/DATA/REFERENCE_DATASET/FIRMS/MODIS/modis/{year}/{date_to_download[0]}.csv"
                     open(outputfile, "wb").write(response.content)
 
             global allJobsDone
@@ -93,16 +93,13 @@ def download_latest(year):
         time.sleep(1)  # Wait for 1 second before checking again
 
 if __name__ == '__main__':
-    download_archive(2000, 2023)
-    download_latest(2023)
-
-else:
     import sys
-    from_date = sys.argv[1]
-    last_date = sys.argv[1]
+
+    print(f"reference quarter {sys.argv[1]}")
+
+    year = sys.argv[1][:4]
+    outputdir = sys.argv[2]
+    from_date = 2000
+    last_date = year
     download_archive(from_date, last_date)
     download_latest(last_date)
-
-
-
-

@@ -163,70 +163,37 @@ def aggregate(fromdate,todate,priogrid, popualtion,preprocessed,rootdirsearch,in
 
 if __name__ == '__main__':
 
-    import os
 
-    if os.name == 'nt':
-        preprocessed="D:/DATA/FIRMS/pgid_preprocessed"
-        rootdirsearch = "D:/DATA/FIRMS/MODIS/modis/"
+    import sys
+    print("define the args:")
+    print("from quarter eg 2022Q1")
+    print("from to quarter eg 2023Q4")
+    print("outfilename eg CLI_risk_fires_7y.parquet")
 
-        priogrid = pd.read_parquet(
-            "C:/Users/email/Documents/conflictproxyindicators/reference_datasets/base-grid/base_grid_prio.parquet").reset_index()
-
-        popualtion = pd.read_parquet(
-            "../reference_datasets/population/population_worldpop.parquet").reset_index()
-
-        popualtion = popualtion.loc[((popualtion.year == 2023) & (popualtion.quarter == 4))]
-
-        indicator_name = "CLI_current_wildfires"
-        df = aggregate("2022Q3", "2023Q3", priogrid, popualtion,preprocessed,rootdirsearch,indicator_name)
+    from_q = sys.argv[1]
+    to_q = sys.argv[2]
+    out_dir =sys.argv[3]
+    out_filename=sys.argv[4]
 
 
-        df = df[["pgid","boxcoxb_log_minmax"]]
-        df.columns = ["pgid",indicator_name]
-        df["year"] = 2023
-        df["quarter"] = 3
-        df.to_parquet(f"{indicator_name}.parquet")
+    preprocessed="/DATA/REFERENCE_DATASETS/FIRMS/pgid_preprocessed"
+    rootdirsearch = "/DATA/REFERENCE_DATASETS/FIRMS/MODIS/modis/"
 
-        indicator_name = "CLI_accumualted_wildfires"
-        df = aggregate("2017Q3", "2023Q3", priogrid, popualtion,preprocessed,rootdirsearch,indicator_name)
+    priogrid = pd.read_parquet(
+        "/DATA/REFERENCE_DATASETS/BASEGRID/base_grid_prio.parquet").reset_index()
 
+    popualtion = pd.read_parquet(
+        "/DATA/REFERENCE_DATASETS/POPULATION/population_worldpop.parquet").reset_index()
 
-        df = df[["pgid","boxcoxb_log_minmax"]]
-        df.columns = ["pgid",indicator_name]
-        df["year"] = 2023
-        df["quarter"] = 3
-        df.to_parquet(f"{indicator_name}.parquet")
-    else:
-        import sys
+    popualtion = popualtion.loc[((popualtion.year == 2023) & (popualtion.quarter == 4))]
 
-        print("define the args:")
-        print("from quarter eg 2022Q1")
-        print("from to quarter eg 2023Q4")
-        print("outfilename eg CLI_risk_fires_7y.parquet")
+    df = aggregate(from_q, to_q, priogrid, popualtion,preprocessed,rootdirsearch)
 
-        from_q = sys.argv[1]
-        to_q = sys.argv[2]
-        out_filename=sys.argv[3]
-
-
-        preprocessed="/DATA/REFERENCE_DATASETS/FIRMS/pgid_preprocessed"
-        rootdirsearch = "/DATA/REFERENCE_DATASETS/FIRMS/MODIS/modis/"
-
-        priogrid = pd.read_parquet(
-            "/DATA/REFERENCE_DATASETS/BASEGRID/base_grid_prio.parquet").reset_index()
-
-        popualtion = pd.read_parquet(
-            "/DATA/REFERENCE_DATASETS/POPULATION/population_worldpop.parquet").reset_index()
-
-        popualtion = popualtion.loc[((popualtion.year == 2023) & (popualtion.quarter == 4))]
-
-        df = aggregate(from_q, to_q, priogrid, popualtion,preprocessed,rootdirsearch)
-
-        df = df[["pgid","boxcoxb_log_minmax"]]
-        df.columns = ["pgid",out_filename.replace("parquet","")]
-        df["year"] = 2023
-        df["quarter"] = 3
-        df.to_parquet(out_filename)
+    df = df[["pgid","boxcoxb_log_minmax"]]
+    df.columns = ["pgid",out_filename.replace("parquet","")]
+    df["year"] = from_q[:4]
+    df["quarter"] = from_q[1:]
+    df.to_parquet(f"{out_dir}/{out_filename}")
 
 
 

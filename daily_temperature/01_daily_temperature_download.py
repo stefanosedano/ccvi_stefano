@@ -32,8 +32,6 @@ def f(x):
 
     outfile = f"{temp_files}/raw/era5_temperature_max/{startDate[:4]}/image_{startDate}.parquet.gzip"
 
-
-
     doneIt = False
     if not os.path.exists(outfile):
         print(f"downlading: {outfile}")
@@ -113,31 +111,36 @@ class ZsGEE:
         out_pd = pd.DataFrame(output)
         out_pd['quarter'] = pd.to_datetime(out_pd['composite_start'], format='%Y%m%d').dt.to_period('Q').astype(str)
         out_pd['q'] = out_pd['quarter'].str.strip().str[-2:]
-        if not os.path.exists("../latlon.parquet.gzip"):
+        if not os.path.exists("/DATA/ERA5/tempertaure/latlon.parquet.gzip"):
             out_pd[["pgid","lat","lon"]].to_parquet("latlon.parquet.gzip",compression="gzip")
         return out_pd[['pgid','composite_start', 'mean','quarter',"q"]]
 
 
 
 if __name__ == '__main__':
+
     import time
     from datetime import datetime, timedelta
+    import sys
+
+    year = sys.argv[1]
+    month = sys.argv[2]
+    day = sys.argv[3]
+
     start = time.time()
-    temp_files = "d:/DATA/ERA5/temp/tempertaure/"
+    temp_files = "/DATA/REFERENCE_DATASETS/ERA5/tempertaure/"
 
     if not os.path.exists(temp_files):
         os.makedirs(temp_files)
     from_year = 1951
-    to_year = 2024
+    to_year = year
     cut_off_year = 2011
     ####DOWNLOAD DATA FROM GEE
-    if not os.path.exists("era5_temperature.parquet.gzip"):
+    if not os.path.exists(f"{temp_files}/era5_temperature.parquet.gzip"):
         params = []
 
-
-
         startDate = datetime(1951, 1, 1)
-        endDate = datetime(2023, 10, 24)
+        endDate = datetime(year, month, day)
 
         # Getting List of Days using pandas
         datesRange = pd.date_range(startDate, endDate - timedelta(days=1), freq='d')
@@ -145,13 +148,12 @@ if __name__ == '__main__':
         print(datesRange)
         for datei in datesRange:
             parx = {
-                    "startdate": datei.strftime("%Y-%m-%d"),
-                    "temp_files":temp_files
-                }
+                "startdate": datei.strftime("%Y-%m-%d"),
+                "temp_files": temp_files
+            }
             params.append(parx)
 
-
-        with Pool(5) as p:
+        with Pool(30) as p:
             p.map(f, params)
 
         done = time.time()
@@ -159,10 +161,5 @@ if __name__ == '__main__':
         print(f"download done! {elapsed}", flush=True)
 
         
-
-
-
-
-
 
 
