@@ -97,7 +97,7 @@ if __name__ == '__main__':
 
     print(f"reference quarter {sys.argv[1]}")
 
-    year = sys.argv[1][:4]
+    year = int(sys.argv[1][:4])
 
     from_date = 2000
     last_date = year
