@@ -98,7 +98,7 @@ if __name__ == '__main__':
     print(f"reference quarter {sys.argv[1]}")
 
     year = sys.argv[1][:4]
-    outputdir = sys.argv[2]
+
     from_date = 2000
     last_date = year
     download_archive(from_date, last_date)
