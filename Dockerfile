@@ -29,6 +29,7 @@ RUN pip install cartopy
 RUN pip install tropycal
 RUN pip install schedule
 RUN pip install openpyxl
+RUN pip install lxml
 ENV PYTHONPATH "${PYTHONPATH}:/ccvi_stefano"
 
 
