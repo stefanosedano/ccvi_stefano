@@ -13,7 +13,7 @@ def custom_norm(df,count_column):
 
     df[f"{count_column}_multiply_pop_density"] = df[count_column] * df["wp_pop_density_log_minmax"]
 
-    df = df.loc[df[f"{count_column}_multiply_pop_density"]]
+    df = df.loc[df[f"{count_column}_multiply_pop_density"] > 0]
 
 
     #df[f"{count_column}_multiply_pop_density_log"] = np.log(
@@ -32,9 +32,9 @@ def custom_norm(df,count_column):
 
     #qt = QuantileTransformer(n_quantiles=5000, output_distribution='normal')
     #df[f"{count_column}_multiply_pop_density_log_q"] = qt.fit_transform(df[[f"{count_column}_multiply_pop_density_log"]])
-    minmax = MinMaxScaler(feature_range=(0, 1))
-    df[f"{count_column}_multiply_pop_density_log_minmax"] = minmax.fit_transform(
-        df[[f"{count_column}_multiply_pop_density_log"]])
+    #minmax = MinMaxScaler(feature_range=(0, 1))
+    #df[f"{count_column}_multiply_pop_density_log_minmax"] = minmax.fit_transform(
+    #    df[[f"{count_column}_multiply_pop_density_log"]])
 
 
 

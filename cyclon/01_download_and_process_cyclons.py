@@ -10,6 +10,8 @@ import sys
 sys.path.append('..')
 from general_functions_ccvi.normality_test import normality_test
 from general_functions_ccvi.log_with_pop_and_fit_normal_distribution import custom_norm
+import warnings
+warnings.filterwarnings('ignore')
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
@@ -98,10 +100,10 @@ if __name__ == '__main__':
 
     ibtrak_url = "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/csv/ibtracs.ALL.list.v04r00.csv"
     priogrid = pd.read_parquet(
-        "/DATA/REFERENCE_DATASETS/BASEGRID/base_grid_prio.parquet").reset_index()
+        "D:/DATA/REFERENCE_DATASETS/BASEGRID/base_grid_prio.parquet").reset_index()
 
     popualtion = pd.read_parquet(
-        "/DATA/REFERENCE_DATASETS/POPULATION/population_worldpop.parquet").reset_index()
+        "D:/DATA/REFERENCE_DATASETS/POPULATION/population_worldpop.parquet").reset_index()
 
     popualtion = popualtion.loc[((popualtion.year == 2023) & (popualtion.quarter == 4))]
 
