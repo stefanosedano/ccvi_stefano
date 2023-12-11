@@ -125,9 +125,9 @@ if __name__ == '__main__':
     from datetime import datetime, timedelta
     import sys
 
-    year = sys.argv[1]
-    month = sys.argv[2]
-    day = sys.argv[3]
+    year = int(sys.argv[1])
+    month = int(sys.argv[2])
+    day = int(sys.argv[3])
 
     start = time.time()
     temp_files = "/DATA/REFERENCE_DATASETS/ERA5/precipitation/"
