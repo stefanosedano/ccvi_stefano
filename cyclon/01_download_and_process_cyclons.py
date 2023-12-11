@@ -94,9 +94,9 @@ if __name__ == '__main__':
     year = date_to[:4]
     quarter = date_to[-1]
 
-    outputdir = sys.argv[2]
+    outputdir = sys.argv[3]
 
-    indicator_name = sys.argv[2].replace(".parquet","")
+    indicator_name = sys.argv[4].replace(".parquet","")
 
     ibtrak_url = "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/csv/ibtracs.ALL.list.v04r00.csv"
     priogrid = pd.read_parquet(
