@@ -176,14 +176,14 @@ if __name__ == '__main__':
     out_filename=sys.argv[4]
 
 
-    preprocessed="D:/DATA/REFERENCE_DATASETS/FIRMS/pgid_preprocessed"
-    rootdirsearch = "D:/DATA/REFERENCE_DATASETS/FIRMS/MODIS/modis/"
+    preprocessed="/DATA/REFERENCE_DATASETS/FIRMS/pgid_preprocessed"
+    rootdirsearch = "/DATA/REFERENCE_DATASETS/FIRMS/MODIS/modis/"
 
     priogrid = pd.read_parquet(
-        "D:/DATA/REFERENCE_DATASETS/BASEGRID/base_grid_prio.parquet").reset_index()
+        "/DATA/REFERENCE_DATASETS/BASEGRID/base_grid_prio.parquet").reset_index()
 
     popualtion = pd.read_parquet(
-        "D:/DATA/REFERENCE_DATASETS/POPULATION/population_worldpop.parquet").reset_index()
+        "/DATA/REFERENCE_DATASETS/POPULATION/population_worldpop.parquet").reset_index()
 
     popualtion = popualtion.loc[((popualtion.year == 2023) & (popualtion.quarter == 4))]
 
