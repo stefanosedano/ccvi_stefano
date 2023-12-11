@@ -153,7 +153,7 @@ def aggregate(fromdate,todate,priogrid, popualtion,preprocessed,rootdirsearch):
 
     df = custom_norm(df, "count_fire")
 
-    normality_test(df[["count_fire_multiply_pop_density_log_minmax"]])
+    normality_test(df[["boxcoxb_log_minmax"]])
 
     df.to_csv(f"fire_{fromdate}-{todate}.csv")
 
@@ -176,14 +176,14 @@ if __name__ == '__main__':
     out_filename=sys.argv[4]
 
 
-    preprocessed="/DATA/REFERENCE_DATASETS/FIRMS/pgid_preprocessed"
-    rootdirsearch = "/DATA/REFERENCE_DATASETS/FIRMS/MODIS/modis/"
+    preprocessed="D:/DATA/REFERENCE_DATASETS/FIRMS/pgid_preprocessed"
+    rootdirsearch = "D:/DATA/REFERENCE_DATASETS/FIRMS/MODIS/modis/"
 
     priogrid = pd.read_parquet(
-        "/DATA/REFERENCE_DATASETS/BASEGRID/base_grid_prio.parquet").reset_index()
+        "D:/DATA/REFERENCE_DATASETS/BASEGRID/base_grid_prio.parquet").reset_index()
 
     popualtion = pd.read_parquet(
-        "/DATA/REFERENCE_DATASETS/POPULATION/population_worldpop.parquet").reset_index()
+        "D:/DATA/REFERENCE_DATASETS/POPULATION/population_worldpop.parquet").reset_index()
 
     popualtion = popualtion.loc[((popualtion.year == 2023) & (popualtion.quarter == 4))]
 
