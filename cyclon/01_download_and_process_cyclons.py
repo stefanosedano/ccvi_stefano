@@ -93,7 +93,7 @@ if __name__ == '__main__':
 
     ibtrak_url = "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/csv/ibtracs.ALL.list.v04r00.csv"
     priogrid = pd.read_parquet(
-        "/DATA/REFERENCE_DATASET/BASEGRID/base_grid_prio.parquet").reset_index()
+        "/DATA/REFERENCE_DATASETS/BASEGRID/base_grid_prio.parquet").reset_index()
 
     popualtion = pd.read_parquet(
         "/DATA/REFERENCE_DATASET/POPULATION/population_worldpop.parquet").reset_index()
