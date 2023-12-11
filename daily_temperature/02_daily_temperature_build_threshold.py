@@ -36,7 +36,7 @@ def get_ranges(centerdate):
     for year in range(1981,2011):
         for el in list_of_month_and_days.values:
             try:
-                file = f"/DATA/REFERENCE_DATASETS/ERA5/temp/tempertaure/raw/era5_temperature_max/{year}/image_{year}-{str(el[1]).zfill(2)}-{str(el[0]).zfill(2)}.parquet.gzip"
+                file = f"/DATA/REFERENCE_DATASETS/ERA5/tempertaure/raw/era5_temperature_max/{year}/image_{year}-{str(el[1]).zfill(2)}-{str(el[0]).zfill(2)}.parquet.gzip"
                 df = pd.read_parquet(file)[["pgid","mean"]].sort_values(by=['pgid']).to_numpy()
 
                 list_of_layers.append(df)
