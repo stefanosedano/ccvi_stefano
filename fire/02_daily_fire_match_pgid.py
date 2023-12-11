@@ -190,9 +190,9 @@ if __name__ == '__main__':
     df = aggregate(from_q, to_q, priogrid, popualtion,preprocessed,rootdirsearch)
 
     df = df[["pgid","boxcoxb_log_minmax"]]
-    df.columns = ["pgid",out_filename.replace("parquet","")]
+    df.columns = ["pgid",out_filename.replace(".parquet","")]
     df["year"] = from_q[:4]
-    df["quarter"] = from_q[1:]
+    df["quarter"] = from_q[-1]
     df.to_parquet(f"{out_dir}/{out_filename}")
 
 

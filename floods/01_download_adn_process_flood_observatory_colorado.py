@@ -70,35 +70,33 @@ def aggregate(fromdate,todate, priogrid, popualtion,indicator_name):
 
 if __name__ == '__main__':
 
+
+    import sys
+    #print("define the args:")
+    #print("from quarter eg 2022Q1")
+    #print("from to quarter eg 2023Q4")
+    #print("outfilename eg CLI_risk_fires_7y.parquet")
+
+    from_q = sys.argv[1]
+    to_q = sys.argv[2]
+    out_dir =sys.argv[3]
+    out_filename=sys.argv[4]
+
     priogrid = pd.read_parquet(
-        "C:/Users/email/Documents/conflictproxyindicators/reference_datasets/base-grid/base_grid_prio.parquet").reset_index()
+        "/DATA/REFERENCE_DATASETS/BASEGRID/base_grid_prio.parquet").reset_index()
 
     popualtion = pd.read_parquet(
-        "../reference_datasets/population/population_worldpop.parquet").reset_index()
+        "/DATA/REFERENCE_DATASETS/POPULATION/population_worldpop.parquet").reset_index()
 
     popualtion = popualtion.loc[((popualtion.year == 2023) & (popualtion.quarter == 4))]
 
-    indicator_name = "CLI_current_floods"
-    df = aggregate("2021Q3", "2023Q3", priogrid, popualtion, indicator_name)
+    indicator_name = out_filename.replace(".parquet","")
+    df = aggregate(from_q, to_q, priogrid, popualtion, indicator_name)
 
 
     df = df[["pgid","boxcoxb_log_minmax"]]
     df.columns = ["pgid",indicator_name]
-    df["year"] = 2023
-    df["quarter"] = 3
-    df.to_parquet(f"{indicator_name}.parquet")
-
-    indicator_name = "CLI_accumulated_floods"
-    df = aggregate("2017Q3", "2023Q3", priogrid, popualtion, indicator_name)
-
-
-    df = df[["pgid","boxcoxb_log_minmax"]]
-    df.columns = ["pgid",indicator_name]
-    df["year"] = 2023
-    df["quarter"] = 3
-    df.to_parquet(f"{indicator_name}.parquet")
-
-
-
-
+    df["year"] = from_q[:4]
+    df["quarter"] = from_q[-1]
+    df.to_parquet(f"{out_dir}/{out_filename}")
 
