@@ -3,6 +3,8 @@ import ee
 import numpy as np
 import pandas as pd
 from multiprocessing import Pool
+import warnings
+warnings.filterwarnings('ignore')
 
 def fc_to_dict(fc):
     prop_names = fc.first().propertyNames()

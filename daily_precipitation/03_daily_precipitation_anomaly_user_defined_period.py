@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 from functools import reduce
 import warnings
+warnings.filterwarnings('ignore')
 warnings.simplefilter(action='ignore', category=FutureWarning)
 import time
 from datetime import datetime, timedelta
