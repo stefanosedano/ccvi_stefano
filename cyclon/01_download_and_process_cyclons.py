@@ -90,7 +90,7 @@ if __name__ == '__main__':
     date_from = sys.argv[1]
     date_to = sys.argv[2]
     year = date_to[:4]
-    quarter = date_to[1][1:]
+    quarter = date_to[-1]
 
     outputdir = sys.argv[2]
 
@@ -103,7 +103,7 @@ if __name__ == '__main__':
     popualtion = pd.read_parquet(
         "/DATA/REFERENCE_DATASETS/POPULATION/population_worldpop.parquet").reset_index()
 
-    popualtion = popualtion.loc[((popualtion.year == year) & (popualtion.quarter == quarter))]
+    popualtion = popualtion.loc[((popualtion.year == 2023) & (popualtion.quarter == 4))]
 
 
     df = aggregate(date_from, date_to,priogrid,popualtion,ibtrak_url,indicator_name)
