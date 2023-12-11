@@ -61,7 +61,7 @@ def aggregate(fromdate,todate, priogrid, popualtion,indicator_name):
 
     out = custom_norm(grouped_df, "num_days")
 
-    normality_test(out[["num_days_multiply_pop_density_log_minmax"]])
+    normality_test(out[["boxcoxb_log_minmax"]])
 
     out.to_csv(f"flood_{fromdate}-{todate}.csv")
 
@@ -83,10 +83,10 @@ if __name__ == '__main__':
     out_filename=sys.argv[4]
 
     priogrid = pd.read_parquet(
-        "/DATA/REFERENCE_DATASETS/BASEGRID/base_grid_prio.parquet").reset_index()
+        "D:/DATA/REFERENCE_DATASETS/BASEGRID/base_grid_prio.parquet").reset_index()
 
     popualtion = pd.read_parquet(
-        "/DATA/REFERENCE_DATASETS/POPULATION/population_worldpop.parquet").reset_index()
+        "D:/DATA/REFERENCE_DATASETS/POPULATION/population_worldpop.parquet").reset_index()
 
     popualtion = popualtion.loc[((popualtion.year == 2023) & (popualtion.quarter == 4))]
 
