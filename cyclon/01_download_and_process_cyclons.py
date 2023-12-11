@@ -100,10 +100,10 @@ if __name__ == '__main__':
 
     ibtrak_url = "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/csv/ibtracs.ALL.list.v04r00.csv"
     priogrid = pd.read_parquet(
-        "D:/DATA/REFERENCE_DATASETS/BASEGRID/base_grid_prio.parquet").reset_index()
+        "/DATA/REFERENCE_DATASETS/BASEGRID/base_grid_prio.parquet").reset_index()
 
     popualtion = pd.read_parquet(
-        "D:/DATA/REFERENCE_DATASETS/POPULATION/population_worldpop.parquet").reset_index()
+        "/DATA/REFERENCE_DATASETS/POPULATION/population_worldpop.parquet").reset_index()
 
     popualtion = popualtion.loc[((popualtion.year == 2023) & (popualtion.quarter == 4))]
 
