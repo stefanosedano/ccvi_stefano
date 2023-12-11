@@ -101,7 +101,7 @@ if __name__ == '__main__':
         "/DATA/REFERENCE_DATASETS/BASEGRID/base_grid_prio.parquet").reset_index()
 
     popualtion = pd.read_parquet(
-        "/DATA/REFERENCE_DATASET/POPULATION/population_worldpop.parquet").reset_index()
+        "/DATA/REFERENCE_DATASETS/POPULATION/population_worldpop.parquet").reset_index()
 
     popualtion = popualtion.loc[((popualtion.year == year) & (popualtion.quarter == quarter))]
 
