@@ -34,7 +34,7 @@ def get_ranges(centerdate):
     for year in range(1951,2011):
         for el in list_of_month_and_days.values:
             try:
-                file = f"/DATA/REFERENCE/DATASETS/ERA5/precipitation/raw/era5_precipitation/{year}/image_{year}-{str(el[1]).zfill(2)}-{str(el[0]).zfill(2)}.parquet.gzip"
+                file = f"/DATA/REFERENCE_DATASETS/ERA5/precipitation/raw/era5_precipitation/{year}/image_{year}-{str(el[1]).zfill(2)}-{str(el[0]).zfill(2)}.parquet.gzip"
                 df = pd.read_parquet(file)[["pgid","sum"]].sort_values(by=['pgid']).to_numpy()
 
                 list_of_layers.append(df)
@@ -59,7 +59,7 @@ if __name__ == '__main__':
     startDate = datetime(2024, 1, 1)
     endDate = datetime(2024, 12, 31)
     renge_dates = pd.date_range(startDate, endDate, freq='d')
-    reference_directory = "/DATA/REFERENCE/DATASETS/ERA5/precipitation/raw/era5_precipitation_reference"
+    reference_directory = "/DATA/REFERENCE_DATASETS/ERA5/precipitation/raw/era5_precipitation_reference"
     for day in renge_dates:
         if not os.path.exists(f"{reference_directory}/{str(day.month).zfill(2)}_{str(day.day).zfill(2)}.parquet.gzip"):
             try:
