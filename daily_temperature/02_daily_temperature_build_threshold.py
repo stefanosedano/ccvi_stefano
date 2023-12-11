@@ -61,7 +61,7 @@ if __name__ == '__main__':
     startDate = datetime(2024, 1, 1)
     endDate = datetime(2024, 12, 31)
     renge_dates = pd.date_range(startDate, endDate, freq='d')
-    reference_directory = "/DATA/REFERENCE/DATASETS/ERA5/tempertaure/raw/era5_temperature_max_reference"
+    reference_directory = "/DATA/REFERENCE_DATASETS/ERA5/tempertaure/raw/era5_temperature_max_reference"
     for day in renge_dates:
         if not os.path.exists(f"{reference_directory}/{str(day.month).zfill(2)}_{str(day.day).zfill(2)}.parquet.gzip"):
             try:
