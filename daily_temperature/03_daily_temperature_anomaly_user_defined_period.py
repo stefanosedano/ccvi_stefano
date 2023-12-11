@@ -214,11 +214,6 @@ if __name__ == '__main__':
 
     import sys
 
-    print("define the args:")
-    print("from quarter eg 2022Q1")
-    print("from to quarter eg 2023Q4")
-    print("outfilename eg CLI_risk_fires_7y.parquet")
-
     from_q = sys.argv[1]
     to_q = sys.argv[2]
     out_dir = sys.argv[3]
