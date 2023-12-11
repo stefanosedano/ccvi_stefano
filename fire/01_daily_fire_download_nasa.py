@@ -95,7 +95,7 @@ def download_latest(year):
 if __name__ == '__main__':
     import sys
 
-    print(f"reference quarter {sys.argv[1]}")
+    #print(f"reference quarter {sys.argv[1]}")
 
     year = int(sys.argv[1][:4])
 
