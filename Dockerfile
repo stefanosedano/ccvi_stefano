@@ -25,6 +25,8 @@ RUN pip install netCDF4
 RUN pip install swifter
 RUN pip install seaborn
 RUN pip install statsmodels
+RUN pip install cartopy
+RUN pip install tropycal
 ENV PYTHONPATH "${PYTHONPATH}:/ccvi_stefano"
 
 
