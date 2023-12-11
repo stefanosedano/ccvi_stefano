@@ -83,10 +83,10 @@ if __name__ == '__main__':
     out_filename=sys.argv[4]
 
     priogrid = pd.read_parquet(
-        "D:/DATA/REFERENCE_DATASETS/BASEGRID/base_grid_prio.parquet").reset_index()
+        "/DATA/REFERENCE_DATASETS/BASEGRID/base_grid_prio.parquet").reset_index()
 
     popualtion = pd.read_parquet(
-        "D:/DATA/REFERENCE_DATASETS/POPULATION/population_worldpop.parquet").reset_index()
+        "/DATA/REFERENCE_DATASETS/POPULATION/population_worldpop.parquet").reset_index()
 
     popualtion = popualtion.loc[((popualtion.year == 2023) & (popualtion.quarter == 4))]
 
