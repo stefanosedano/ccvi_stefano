@@ -7,7 +7,8 @@ from sklearn.preprocessing import PowerTransformer, QuantileTransformer, MinMaxS
 sys.path.append('..')
 from general_functions_ccvi.normality_test import normality_test
 from general_functions_ccvi.log_with_pop_and_fit_normal_distribution import custom_norm
-
+import warnings
+warnings.filterwarnings('ignore')
 
 def aggregate(fromdate,todate, priogrid, popualtion,indicator_name):
 
