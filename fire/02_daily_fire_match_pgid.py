@@ -135,7 +135,7 @@ def process_data(rootdirsearch,priogrid, popualtion):
 
     return df
 
-def aggregate(fromdate,todate,priogrid, popualtion,preprocessed,rootdirsearch,indicator_name):
+def aggregate(fromdate,todate,priogrid, popualtion,preprocessed,rootdirsearch):
 
     if not os.path.exists(f"{preprocessed}/fire_count_pgid.parquet.gzip"):
 
@@ -147,7 +147,7 @@ def aggregate(fromdate,todate,priogrid, popualtion,preprocessed,rootdirsearch,in
     df = df.loc[((df.quarter>=fromdate) & (df.quarter<=todate))]
     df=df.groupby(["pgid", "lat", "lon"]).sum().reset_index()[["pgid", "lat", "lon","count_fire"]]
 
-    df.to_parquet(f"raw_{indicator_name}.parquet")
+    #df.to_parquet(f"raw_{indicator_name}.parquet")
 
     df = df.merge(popualtion[["pgid","wp_pop_density"]],on="pgid",how="left")
 
