@@ -225,7 +225,7 @@ if __name__ == '__main__':
     df = df[["pgid","boxcoxb_log_minmax"]]
     df.columns = ["pgid",indicator_name]
     df["year"] = to_q[:4]
-    df["quarter"] = to_q[1:]
+    df["quarter"] = to_q[-1]
     df.to_parquet(f"{out_dir}/{indicator_name}.parquet")
 
 

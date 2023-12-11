@@ -28,6 +28,7 @@ RUN pip install statsmodels
 RUN pip install cartopy
 RUN pip install tropycal
 RUN pip install schedule
+RUN pip install openpyxl
 ENV PYTHONPATH "${PYTHONPATH}:/ccvi_stefano"
 
 
