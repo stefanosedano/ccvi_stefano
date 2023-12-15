@@ -58,7 +58,7 @@ def get_ranges(centerdate):
 if __name__ == '__main__':
     #366 treshold considering leap year years
     ##1991-2020 reference epriod!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+    print("building reference, are you sure you want to re-calculate the reference dataset?")
     startDate = datetime(2024, 1, 1)
     endDate = datetime(2024, 12, 31)
     renge_dates = pd.date_range(startDate, endDate, freq='d')
@@ -72,6 +72,9 @@ if __name__ == '__main__':
             except Exception as e:
                 print(e)
                 pass
+        else:
+            print(f"Exists in cache !!! {reference_directory}/{str(day.month).zfill(2)}_{str(day.day).zfill(2)}.parquet.gzip")
+
 
 
 

@@ -89,6 +89,7 @@ def build_anomaly(arr,renge_dates,reference_pd,popualtion,priogrid):
     out=[]
     #loop for all pgid to get and scan the temporal series
     for i in range(arr.shape[0]):
+        print(f"processing pgid {i} on {arr.shape[0]}")
         if ((arr[i,0,:].max() == arr[i,0,:].min())):
 
             #identify the pgid
@@ -103,7 +104,7 @@ def build_anomaly(arr,renge_dates,reference_pd,popualtion,priogrid):
             count_an,magnitude_an = count_anomaly_and_magnitude(arr[i,1,:],pgid,renge_dates,reference_pgid)
 
             out.append([pgid,count_an,magnitude_an])
-            print(i)
+
         else:
             print("some errors in the pgid")
     out = pd.DataFrame(out,columns=["pgid","count","magnitude"])
@@ -118,6 +119,9 @@ def aggregate(yearquarterfrom,yearquarterto,popualtion,priogrid,path_daily_temp,
 
     # last year measure, most recent quarter 2023Q2
     if not os.path.exists(f"{path_year_anomaly}/{yearquarterfrom}-{yearquarterto}_year.csv"):
+
+        print(f"building cache anomaly: {path_year_anomaly}/{yearquarterfrom}-{yearquarterto}_year.csv")
+
         startDate = datetime(1951, 1, 1)
         endDate = datetime(2024, 8, 3)
         renge_dates = pd.date_range(startDate, endDate, freq='d')
@@ -165,7 +169,7 @@ def aggregate(yearquarterfrom,yearquarterto,popualtion,priogrid,path_daily_temp,
 
     df_anomaly = pd.read_parquet(f"{path_year_anomaly}/{yearquarterfrom}-{yearquarterto}_year.parquet.gzip")
 
-    print("qui")
+
 
     df_anomaly=df_anomaly[["pgid","count"]]
 

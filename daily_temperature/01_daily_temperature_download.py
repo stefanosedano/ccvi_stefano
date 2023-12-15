@@ -60,6 +60,8 @@ def f(x):
         except Exception as e:
             print(f"date: {startDate}, error: {e}")
             pass
+    else:
+        print(f"Exists in cache!!: {outfile}")
 
 
 class ZsGEE:
@@ -139,6 +141,8 @@ if __name__ == '__main__':
     cut_off_year = 2011
     ####DOWNLOAD DATA FROM GEE
     if not os.path.exists(f"{temp_files}/era5_temperature.parquet.gzip"):
+        print("aggregated era5_temperature.parquet.gzip not available")
+        print("making aggregated era5_temperature.parquet.gzip")
         params = []
 
         startDate = datetime(1951, 1, 1)
@@ -161,6 +165,8 @@ if __name__ == '__main__':
         done = time.time()
         elapsed = done - start
         print(f"download done! {elapsed}", flush=True)
+    else:
+        print("using the cached era5_precipitation.parquet.gzip, are you sure ???")
 
         
 

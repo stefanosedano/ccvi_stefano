@@ -44,9 +44,11 @@ def aggregate(fromdate,todate,priogrid,popualtion,ibtrak_url,indicator_name):
     filename_full = f"cyclons_{fromdate}-{todate}_full.csv"
     filename = f"cyclons_{fromdate}-{todate}.csv"
     if not os.path.exists("cyclones_point.parquet.gz"):
+        print("building cyclons point df")
         points = cyclons_to_grid(binsize=1, datefrom=pd.to_datetime(fromdate), dateto=pd.to_datetime(todate),ibtrak_url=ibtrak_url)
         points.to_parquet("cyclones_point.parquet.gz", compression="gzip")
     else:
+        print("reading cyclons point df from cache")
         points = pd.read_parquet("cyclones_point.parquet.gz")
 
 
