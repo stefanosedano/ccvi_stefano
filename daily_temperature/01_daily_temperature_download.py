@@ -151,7 +151,7 @@ if __name__ == '__main__':
         # Getting List of Days using pandas
         datesRange = pd.date_range(startDate, endDate - timedelta(days=1), freq='d')
 
-        print(datesRange)
+
         for datei in datesRange:
             parx = {
                 "startdate": datei.strftime("%Y-%m-%d"),
