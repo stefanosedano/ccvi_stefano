@@ -143,34 +143,26 @@ if __name__ == '__main__':
 
     ####DOWNLOAD DATA FROM GEE
 
-    if not os.path.exists("era5_precipitation.parquet.gzip"):
-        print("aggregated era5_precipitation.parquet.gzip not available")
-        print("making aggregated era5_precipitation.parquet.gzip")
-        params = []
+    params = []
 
-        startDate = datetime(1951, 1, 1)
-        endDate = datetime(year, month, day)
+    startDate = datetime(1951, 1, 1)
+    endDate = datetime(year, month, day)
 
-        # Getting List of Days using pandas
-        datesRange = pd.date_range(startDate, endDate - timedelta(days=1), freq='d')
+    # Getting List of Days using pandas
+    datesRange = pd.date_range(startDate, endDate - timedelta(days=1), freq='d')
 
-        print(datesRange)
-        for datei in datesRange:
-            parx = {
-                    "startdate": datei.strftime("%Y-%m-%d"),
-                    "temp_files":temp_files
-                }
-            params.append(parx)
+    print(datesRange)
+    for datei in datesRange:
+        parx = {
+                "startdate": datei.strftime("%Y-%m-%d"),
+                "temp_files":temp_files
+            }
+        params.append(parx)
 
 
-        with Pool(30) as p:
-            p.map(f, params)
+    with Pool(30) as p:
+        p.map(f, params)
 
-        done = time.time()
-        elapsed = done - start
-        print(f"download done! {elapsed}", flush=True)
-    else:
-        print("using the cached era5_precipitation.parquet.gzip, are you sure ???")
 
         
 
